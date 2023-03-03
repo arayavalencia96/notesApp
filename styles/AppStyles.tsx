@@ -28,9 +28,6 @@ export default StyleSheet.create({
     alignSelf: "stretch",
     marginVertical: 4,
   },
-  fillSpace: {
-    flex: 1,
-  },
   rightAligned: {
     justifyContent: "flex-end",
   },
@@ -109,19 +106,10 @@ export default StyleSheet.create({
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,
   },
-  item: {
-    backgroundColor: "#262626",
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
-    borderRadius: 25,
-    borderColor: "red",
-  },
   title: {
     color: "#fff",
     fontSize: 32,
     marginBottom: 10,
-    paddingEnd: 30,
   },
   description: {
     color: "#fff",
@@ -135,4 +123,30 @@ export default StyleSheet.create({
   btnAddNoteCentrar: {
     justifyContent: "center",
   },
+  item: {
+    flex: 1,
+    backgroundColor: "#262626",
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+    borderRadius: 25,
+    borderColor: "red",
+    flexDirection: "row",
+  },
+  fillSpace: {
+    flex: 1,
+    justifyContent: "center",
+    alignContent: "flex-start",
+    marginEnd: 30,
+  },
+  iconsNotesList: {
+    flex: 1,
+    maxWidth: 22,
+    justifyContent: "center",
+    alignContent: "flex-end",
+  },
+  btnsManageAccount: {
+    marginTop: 20,
+    flexDirection: "row",
+  }
 });

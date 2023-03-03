@@ -23,12 +23,13 @@ import {
   doc,
   setDoc,
 } from "firebase/firestore";
-import { sendEmailVerification } from "firebase/auth";
-import React from "react";
+import { signOut, sendEmailVerification } from "firebase/auth";
+import * as React from "react";
 import AddToDoModal from "../components/AddToDoModal";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 import { LogBox } from "react-native";
+import { Icon } from "@rneui/themed";
 
 LogBox.ignoreLogs([
   "Non-serializable values were found in the navigation state",
@@ -41,6 +42,12 @@ export default function ToDo({ navigation }) {
   let [isLoading, setIsLoading] = React.useState(true);
   let [isRefreshing, setIsRefreshing] = React.useState(false);
   let [toDos, setToDos] = React.useState([]);
+
+  let logout = () => {
+    signOut(auth).then(() => {
+      navigation.popToTop();
+    });
+  };
 
   let loadToDoList = async () => {
     const q = query(
@@ -99,11 +106,20 @@ export default function ToDo({ navigation }) {
             }}
           />
         </View>
-        <InlineTextButton
-          text="Delete"
-          color="#258ea6"
-          onPress={() => deleteToDo(item.id)}
-        />
+        <View style={AppStyles.iconsNotesList}>
+          <Icon
+            name="close-circle-outline"
+            onPress={() => deleteToDo(item.id)}
+            type="ionicon"
+            color="#DC143C"
+          />
+          <Icon
+            name="create-outline"
+            onPress={() => deleteToDo(item.id)}
+            type="ionicon"
+            color="#fb4d3d"
+          />
+        </View>
       </View>
     );
   };
@@ -165,19 +181,19 @@ export default function ToDo({ navigation }) {
   };
 
   let addToDo = async (todo) => {
-      let toDoToSave = {
-        text: todo,
-        completed: false,
-        userId: auth.currentUser.uid,
-      };
-      const docRef = await addDoc(collection(db, "todos"), toDoToSave);
+    let toDoToSave = {
+      text: todo,
+      completed: false,
+      userId: auth.currentUser.uid,
+    };
+    const docRef = await addDoc(collection(db, "todos"), toDoToSave);
 
-      toDoToSave.id = docRef.id;
+    toDoToSave.id = docRef.id;
 
-      let updatedToDos = [...toDos];
-      updatedToDos.push(toDoToSave);
+    let updatedToDos = [...toDos];
+    updatedToDos.push(toDoToSave);
 
-      setToDos(updatedToDos);
+    setToDos(updatedToDos);
   };
 
   return (
@@ -196,11 +212,18 @@ export default function ToDo({ navigation }) {
           AppStyles.topMargin,
         ]}
       >
-        <InlineTextButton
-          text="Manage Account"
-          color="#258ea6"
-          onPress={() => navigation.navigate("ManageAccount")}
-        />
+        <Icon
+            name="person-circle-outline"
+            onPress={() => navigation.navigate("ManageAccount")}
+            type="ionicon"
+            color="#fb4d3d"
+          />
+        <Icon
+            name="log-out-outline"
+            onPress={logout}
+            type="ionicon"
+            color="#DC143C"
+          />
       </View>
       <Modal
         animationType="slide"

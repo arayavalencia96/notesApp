@@ -17,7 +17,6 @@ import {
   writeBatch,
 } from "firebase/firestore";
 import {
-  signOut,
   updatePassword,
   signInWithEmailAndPassword,
   deleteUser,
@@ -29,11 +28,6 @@ export default function ManageAccount({ navigation }) {
   let [newPassword, setNewPassword] = React.useState("");
   let [currentPassword, setCurrentPassword] = React.useState("");
   let [errorMessage, setErrorMessage] = React.useState("");
-  let logout = () => {
-    signOut(auth).then(() => {
-      navigation.popToTop();
-    });
-  };
 
   let updateUserPassword = () => {
     if (currentPassword !== "" && newPassword !== "") {
@@ -134,22 +128,20 @@ export default function ManageAccount({ navigation }) {
           secureTextEntry={true}
           onChangeText={setNewPassword}
         />
-        <Button
-          color="#f7b267"
-          title="Actualizar contraseña"
-          onPress={updateUserPassword}
-        />
-        <Button
-          color="#f7b267"
-          title="Eliminar Usuario"
-          onPress={deleteUserAndToDos}
-        />
-        <Button color="#f7b267" title="Cerrar Sesión" onPress={logout} />
-        <Button
-          color="#f7b267"
-          title="Volver"
-          onPress={() => navigation.pop()}
-        />
+        <View style={AppStyles.btnsManageAccount}>
+          <View style={{ marginEnd: 20 }}>
+            <Button
+              color="#f7b267"
+              title="Actualizar password"
+              onPress={updateUserPassword}
+            />
+          </View>
+          <Button
+            color="#f7b267"
+            title="Eliminar Usuario"
+            onPress={deleteUserAndToDos}
+          />
+        </View>
       </KeyboardAvoidingView>
     </ImageBackground>
   );
